@@ -47,7 +47,7 @@ export class ShaderProgram {
     if (success) {
       return shader;
     }
-    console.log(gl.getShaderInfoLog(shader));
+    console.warn(gl.getShaderInfoLog(shader));
     gl.deleteShader(shader);
     throw new Error("error");
   }
@@ -68,7 +68,7 @@ export class ShaderProgram {
     if (success) {
       return program;
     }
-    console.log(gl.getProgramInfoLog(program));
+    console.warn(gl.getProgramInfoLog(program));
     gl.deleteProgram(program);
     throw new Error("Error");
   }

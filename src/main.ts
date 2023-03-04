@@ -1,3 +1,4 @@
+import { EBO } from "./EBO";
 import { ShaderProgram } from "./ShaderProgram";
 import { defaultFrag, defaultVert } from "./shaders";
 import { Texture } from "./Texture";
@@ -5,9 +6,11 @@ import { VAO } from "./VAO";
 import { VBO } from "./VBO";
 
 const points = [
-  0, 0, 0.9, 0.0, 0.0, 0.0, 1.0, 100, 100, 0.0, 0.9, 0.0, 1.0, 0.0, 0, 100, 0.0,
-  0.0, 1.0, 1.0, 1.0,
+  0, 0, 0.9, 0.0, 0.0, 0.0, 0.0, 100, 0, 0.0, 0.9, 0.0, 1.0, 0.0, 0, 100, 0.0,
+  0.0, 1.0, 0.0, 1.0, 100, 100, 0.0, 0.0, 1.0, 1.0, 1.0,
 ];
+
+const indices = [0, 2, 1, 1, 3, 2];
 
 const canvas = document.querySelector("#canvas") as HTMLCanvasElement;
 const gl = canvas.getContext("webgl2") as WebGL2RenderingContext;
@@ -19,6 +22,7 @@ async function main() {
   vao.bind();
 
   const vbo = new VBO(gl, points);
+  const ebo = new EBO(gl, indices);
 
   vao.linkAttrib(vbo, 0, 2, gl.FLOAT, 7 * 4, 0); //link position
   vao.linkAttrib(vbo, 1, 3, gl.FLOAT, 7 * 4, 2 * 4); //link color
@@ -26,6 +30,7 @@ async function main() {
 
   vao.unbind();
   vbo.unbind();
+  ebo.unbind();
 
   const catTexture = new Texture(
     gl,
@@ -60,10 +65,15 @@ async function main() {
   catTexture.bind();
   vao.bind();
 
-  gl.drawArrays(primitiveType, 0, count);
+  // gl.drawArrays(primitiveType, 0, count);
+  const ext = gl.getExtension("OES_element_index_uint");
+  const indexType = gl.UNSIGNED_SHORT;
+  gl.drawElements(gl.TRIANGLES, 6, indexType, 0);
+  // gl.drawArrays()
 
   vao.delete();
   vbo.delete();
+  ebo.delete();
   shaderProgram.delete();
 }
 
