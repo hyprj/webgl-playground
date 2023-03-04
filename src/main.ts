@@ -1,4 +1,4 @@
-import { Shader } from "./Shader";
+import { ShaderProgram } from "./ShaderProgram";
 import { defaultFrag, defaultVert } from "./shaders";
 import { VAO } from "./VAO";
 import { VBO } from "./VBO";
@@ -10,7 +10,7 @@ const points = [
 const canvas = document.querySelector("#canvas") as HTMLCanvasElement;
 const gl = canvas.getContext("webgl2") as WebGL2RenderingContext;
 
-const shaderProgram = new Shader(gl, defaultVert, defaultFrag);
+const shaderProgram = new ShaderProgram(gl, defaultVert, defaultFrag);
 
 const vao = new VAO(gl);
 vao.bind();

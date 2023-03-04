@@ -1,4 +1,4 @@
-export class Shader {
+export class ShaderProgram {
   public ID: WebGLProgram;
   private gl: WebGL2RenderingContext;
 
